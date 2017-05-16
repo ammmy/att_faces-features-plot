@@ -1,3 +1,6 @@
+# load feats of att_faces
+# type: direct pixel, Vgg net, matlab SURF
+
 import numpy as np
 from scipy.io import loadmat
 from util import *

@@ -1,3 +1,5 @@
+# make sprite image for visualize features' thumbnails on TensorBoard
+
 from util import *
 
 images = load_images()

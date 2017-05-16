@@ -2,7 +2,7 @@
 
 import tensorflow as tf
 from tensorflow.contrib.tensorboard.plugins import projector
-from config import *
+from setting import *
 import os
 import load_feats as lf
 

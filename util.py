@@ -1,5 +1,3 @@
-import matplotlib as mpl
-mpl.use('Agg')
 import matplotlib.pyplot as plt
 from PIL import Image
 import skimage
@@ -9,7 +7,7 @@ import numpy as np
 import os
 from scipy.misc import imresize
 
-from config import *
+from setting import *
 
 def load_images():
     images = []
@@ -26,10 +24,20 @@ def to_rgb(images):
         return images_3D_to_rgb(images)
 
 def images_2D_to_rgb(images):
-    return np.array([np.tile(im[:,np.newaxis] , (1, rgb_channel_num)) for im in images])
+    return np.array([np.tile(im[:,np.newaxis] , (1,3)) for im in images])
 
 def images_3D_to_rgb(images):
-    return np.array([np.tile(im[:,:,np.newaxis] , (1, 1, rgb_channel_num)) for im in images])
+    return np.array([np.tile(im[:,:,np.newaxis] , (1,1,3)) for im in images])
+
+def split_data(feats):
+    split=["train", "dev", "test"]
+    label = np.arange(npeople).repeat(nimage)
+    idx = {}
+    idx["all"] = np.arange(feats.shape[0])
+    idx["dev"] = np.arange(npeople) * nimage
+    idx["test"] = np.arange(npeople) * nimage + 1
+    idx["train"] = np.array(list(set(idx["all"]) - set(idx["dev"]) - set(idx["test"])))
+    return {k:feats[idx[k]] for k in split}, {k:label[idx[k]] for k in split}, {k:idx[k].shape[0] for k in split}
 
 # tile images in a square, need to change
 # see make_sprite_image.py
